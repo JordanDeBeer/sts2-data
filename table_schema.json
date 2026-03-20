@@ -1,0 +1,211 @@
+[
+    {
+        "name": "acts",
+        "type": "STRING",
+        "mode": "REPEATED"
+    },
+    {
+        "name": "ascension",
+        "type": "INTEGER"
+    },
+    {
+        "name": "build_id",
+        "type": "STRING"
+    },
+    {
+        "name": "game_mode",
+        "type": "STRING"
+    },
+    {
+        "name": "killed_by_encounter",
+        "type": "STRING"
+    },
+    {
+        "name": "killed_by_event",
+        "type": "STRING"
+    },
+    {
+        "name": "map_point_history",
+        "type": "JSON",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "modifiers",
+        "type": "STRING",
+        "mode": "REPEATED"
+    },
+    {
+        "name": "platform_type",
+        "type": "STRING"
+    },
+    {
+        "name": "players",
+        "type": "RECORD",
+        "mode": "REPEATED",
+        "fields": [
+            {
+                "name": "character",
+                "type": "STRING"
+            },
+            {
+                "name": "deck",
+                "type": "RECORD",
+                "mode": "REPEATED",
+                "fields": [
+                    {
+                        "name": "floor_added_to_deck",
+                        "type": "INTEGER",
+                        "mode": "NULLABLE"
+                    },
+                    {
+                        "name": "id",
+                        "type": "STRING",
+                        "mode": "NULLABLE"
+                    },
+                    {
+                        "name": "current_upgrade_level",
+                        "type": "INTEGER",
+                        "mode": "NULLABLE"
+                    },
+                    {
+                        "name": "enchantment",
+                        "type": "RECORD",
+                        "mode": "NULLABLE",
+                        "fields": [
+                            {
+                                "name": "amount",
+                                "type": "INTEGER"
+                            },
+                            {
+                                "name": "id",
+                                "type": "STRING"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "id",
+                "type": "INTEGER"
+            },
+            {
+                "name": "max_potion_slot_count",
+                "type": "INTEGER"
+            },
+            {
+                "name": "potions",
+                "type": "RECORD",
+                "mode": "REPEATED",
+                "fields": [
+                    {
+                        "name": "id",
+                        "type": "STRING",
+                        "mode": "NULLABLE"
+                    },
+                    {
+                        "name": "slot_index",
+                        "type": "INTEGER",
+                        "mode": "NULLABLE"
+                    }
+                ]
+            },
+            {
+                "name": "relics",
+                "type": "RECORD",
+                "mode": "REPEATED",
+                "fields": [
+                    {
+                        "name": "floor_added_to_deck",
+                        "type": "INTEGER"
+                    },
+                    {
+                        "name": "id",
+                        "type": "STRING"
+                    },
+                    {
+                        "name": "props",
+                        "type": "RECORD",
+                        "mode": "NULLABLE",
+                        "fields": [
+                            {
+                                "name": "ints",
+                                "type": "RECORD",
+                                "mode": "REPEATED",
+                                "fields": [
+                                    {
+                                        "name": "name",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE"
+                                    },
+                                    {
+                                        "name": "value",
+                                        "type": "INTEGER",
+                                        "mode": "NULLABLE"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "bools",
+                                "type": "RECORD",
+                                "mode": "REPEATED",
+                                "fields": [
+                                    {
+                                        "name": "name",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE"
+                                    },
+                                    {
+                                        "name": "value",
+                                        "type": "BOOLEAN",
+                                        "mode": "NULLABLE"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "int_arrays",
+                                "type": "RECORD",
+                                "mode": "REPEATED",
+                                "fields": [
+                                    {
+                                        "name": "name",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE"
+                                    },
+                                    {
+                                        "name": "value",
+                                        "type": "INTEGER",
+                                        "mode": "REPEATED"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "run_time",
+        "type": "INTEGER"
+    },
+    {
+        "name": "schema_version",
+        "type": "INTEGER"
+    },
+    {
+        "name": "seed",
+        "type": "STRING"
+    },
+    {
+        "name": "start_time",
+        "type": "INTEGER"
+    },
+    {
+        "name": "was_abandoned",
+        "type": "BOOLEAN"
+    },
+    {
+        "name": "win",
+        "type": "BOOLEAN"
+    }
+]
