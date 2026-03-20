@@ -1,0 +1,4 @@
+[tools]
+gcloud = "latest"
+jujutsu = "latest"
+terraform = "latest"
