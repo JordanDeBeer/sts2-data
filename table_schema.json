@@ -55,6 +55,149 @@
             "mode": "REPEATED",
             "fields": [
               {
+                "name": "downgraded_cards",
+                "type": "STRING",
+                "mode": "REPEATED"
+              },
+
+              {
+                "name": "completed_quests",
+                "type": "STRING",
+                "mode": "REPEATED"
+              },
+              {
+                "name": "potion_discarded",
+                "type": "STRING",
+                "mode": "REPEATED"
+              },
+              {
+                "name": "bought_colorless",
+                "type": "STRING",
+                "mode": "REPEATED"
+              },
+              {
+                "name": "cards_removed",
+                "type": "RECORD",
+                "mode": "REPEATED",
+                "fields": [
+                  {
+                    "name": "enchantment",
+                    "type": "RECORD",
+                    "fields": [
+                      {
+                        "name": "amount",
+                        "type": "INTEGER"
+                      },
+                      {
+                        "name": "id",
+                        "type": "STRING"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "props",
+                    "type": "RECORD",
+                    "mode": "NULLABLE",
+                    "fields": [
+                      {
+                        "name": "ints",
+                        "type": "RECORD",
+                        "mode": "REPEATED",
+                        "fields": [
+                          {
+                            "name": "name",
+                            "type": "STRING",
+                            "mode": "NULLABLE"
+                          },
+                          {
+                            "name": "value",
+                            "type": "INTEGER",
+                            "mode": "NULLABLE"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "strings",
+                        "type": "RECORD",
+                        "mode": "REPEATED",
+                        "fields": [
+                          {
+                            "name": "name",
+                            "type": "STRING"
+                          },
+                          {
+                            "name": "value",
+                            "type": "STRING"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "bools",
+                        "type": "RECORD",
+                        "mode": "REPEATED",
+                        "fields": [
+                          {
+                            "name": "name",
+                            "type": "STRING",
+                            "mode": "NULLABLE"
+                          },
+                          {
+                            "name": "value",
+                            "type": "BOOLEAN",
+                            "mode": "NULLABLE"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "int_arrays",
+                        "type": "RECORD",
+                        "mode": "REPEATED",
+                        "fields": [
+                          {
+                            "name": "name",
+                            "type": "STRING",
+                            "mode": "NULLABLE"
+                          },
+                          {
+                            "name": "value",
+                            "type": "INTEGER",
+                            "mode": "REPEATED"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "name": "current_upgrade_level",
+                    "type": "INTEGER"
+                  },
+                  {
+                    "name": "floor_added_to_deck",
+                    "type": "INTEGER"
+                  },
+                  {
+                    "name": "id",
+                    "type": "STRING",
+                    "mode": "REQUIRED"
+                  }
+                ]
+              },
+              {
+                "name": "bought_potions",
+                "type": "STRING",
+                "mode": "REPEATED"
+              },
+              {
+                "name": "bought_relics",
+                "type": "STRING",
+                "mode": "REPEATED"
+              },
+              {
+                "name": "upgraded_cards",
+                "type": "STRING",
+                "mode": "REPEATED"
+              },
+              {
                 "name": "cards_transformed",
                 "type": "RECORD",
                 "mode": "REPEATED",
@@ -63,6 +206,10 @@
                     "name": "final_card",
                     "type": "RECORD",
                     "fields": [
+                      {
+                        "name": "current_upgrade_level",
+                        "type": "INTEGER"
+                      },
                       {
                         "name": "floor_added_to_deck",
                         "type": "INTEGER"
@@ -78,6 +225,10 @@
                     "name": "original_card",
                     "type": "RECORD",
                     "fields": [
+                      {
+                        "name": "current_upgrade_level",
+                        "type": "INTEGER"
+                      },
                       {
                         "name": "floor_added_to_deck",
                         "type": "INTEGER"
@@ -96,6 +247,10 @@
                 "type": "RECORD",
                 "mode": "REPEATED",
                 "fields": [
+                  {
+                    "name": "current_upgrade_level",
+                    "type": "INTEGER"
+                  },
                   {
                     "name": "card",
                     "type": "RECORD",
@@ -119,6 +274,10 @@
                         "type": "INTEGER"
                       },
                       {
+                        "name": "current_upgrade_level",
+                        "type": "INTEGER"
+                      },
+                      {
                         "name": "id",
                         "type": "STRING"
                       }
@@ -136,13 +295,104 @@
                 "mode": "REPEATED",
                 "fields": [
                   {
+                    "name": "enchantment",
+                    "type": "RECORD",
+                    "fields": [
+                      {
+                        "name": "amount",
+                        "type": "INTEGER"
+                      },
+                      {
+                        "name": "id",
+                        "type": "STRING"
+                      }
+                    ]
+                  },
+                  {
                     "name": "id",
                     "type": "STRING",
                     "mode": "REQUIRED"
                   },
                   {
+                    "name": "current_upgrade_level",
+                    "type": "INTEGER"
+                  },
+                  {
+                    "name": "floor_added_to_deck",
+                    "type": "INTEGER"
+                  },
+                  {
                     "name": "props",
-                    "type": "JSON"
+                    "type": "RECORD",
+                    "mode": "NULLABLE",
+                    "fields": [
+                      {
+                        "name": "ints",
+                        "type": "RECORD",
+                        "mode": "REPEATED",
+                        "fields": [
+                          {
+                            "name": "name",
+                            "type": "STRING",
+                            "mode": "NULLABLE"
+                          },
+                          {
+                            "name": "value",
+                            "type": "INTEGER",
+                            "mode": "NULLABLE"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "strings",
+                        "type": "RECORD",
+                        "mode": "REPEATED",
+                        "fields": [
+                          {
+                            "name": "name",
+                            "type": "STRING"
+                          },
+                          {
+                            "name": "value",
+                            "type": "STRING"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "bools",
+                        "type": "RECORD",
+                        "mode": "REPEATED",
+                        "fields": [
+                          {
+                            "name": "name",
+                            "type": "STRING",
+                            "mode": "NULLABLE"
+                          },
+                          {
+                            "name": "value",
+                            "type": "BOOLEAN",
+                            "mode": "NULLABLE"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "int_arrays",
+                        "type": "RECORD",
+                        "mode": "REPEATED",
+                        "fields": [
+                          {
+                            "name": "name",
+                            "type": "STRING",
+                            "mode": "NULLABLE"
+                          },
+                          {
+                            "name": "value",
+                            "type": "INTEGER",
+                            "mode": "REPEATED"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
               },
@@ -320,6 +570,93 @@
                     "type": "RECORD",
                     "fields": [
                       {
+                        "name": "enchantment",
+                        "type": "RECORD",
+                        "fields": [
+                          {
+                            "name": "amount",
+                            "type": "INTEGER"
+                          },
+                          {
+                            "name": "id",
+                            "type": "STRING"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "props",
+                        "type": "RECORD",
+                        "mode": "NULLABLE",
+                        "fields": [
+                          {
+                            "name": "ints",
+                            "type": "RECORD",
+                            "mode": "REPEATED",
+                            "fields": [
+                              {
+                                "name": "name",
+                                "type": "STRING",
+                                "mode": "NULLABLE"
+                              },
+                              {
+                                "name": "value",
+                                "type": "INTEGER",
+                                "mode": "NULLABLE"
+                              }
+                            ]
+                          },
+                          {
+                            "name": "strings",
+                            "type": "RECORD",
+                            "mode": "REPEATED",
+                            "fields": [
+                              {
+                                "name": "name",
+                                "type": "STRING"
+                              },
+                              {
+                                "name": "value",
+                                "type": "STRING"
+                              }
+                            ]
+                          },
+                          {
+                            "name": "bools",
+                            "type": "RECORD",
+                            "mode": "REPEATED",
+                            "fields": [
+                              {
+                                "name": "name",
+                                "type": "STRING",
+                                "mode": "NULLABLE"
+                              },
+                              {
+                                "name": "value",
+                                "type": "BOOLEAN",
+                                "mode": "NULLABLE"
+                              }
+                            ]
+                          },
+                          {
+                            "name": "int_arrays",
+                            "type": "RECORD",
+                            "mode": "REPEATED",
+                            "fields": [
+                              {
+                                "name": "name",
+                                "type": "STRING",
+                                "mode": "NULLABLE"
+                              },
+                              {
+                                "name": "value",
+                                "type": "INTEGER",
+                                "mode": "REPEATED"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
                         "name": "current_upgrade_level",
                         "type": "INTEGER",
                         "mode": "NULLABLE"
@@ -357,8 +694,7 @@
             "fields": [
               {
                 "name": "model_id",
-                "type": "STRING",
-                "mode": "REQUIRED"
+                "type": "STRING"
               },
               {
                 "name": "monster_ids",
@@ -410,6 +746,79 @@
             "name": "floor_added_to_deck",
             "type": "INTEGER",
             "mode": "NULLABLE"
+          },
+          {
+            "name": "props",
+            "type": "RECORD",
+            "mode": "NULLABLE",
+            "fields": [
+              {
+                "name": "ints",
+                "type": "RECORD",
+                "mode": "REPEATED",
+                "fields": [
+                  {
+                    "name": "name",
+                    "type": "STRING",
+                    "mode": "NULLABLE"
+                  },
+                  {
+                    "name": "value",
+                    "type": "INTEGER",
+                    "mode": "NULLABLE"
+                  }
+                ]
+              },
+              {
+                "name": "strings",
+                "type": "RECORD",
+                "mode": "REPEATED",
+                "fields": [
+                  {
+                    "name": "name",
+                    "type": "STRING"
+                  },
+                  {
+                    "name": "value",
+                    "type": "STRING"
+                  }
+                ]
+              },
+              {
+                "name": "bools",
+                "type": "RECORD",
+                "mode": "REPEATED",
+                "fields": [
+                  {
+                    "name": "name",
+                    "type": "STRING",
+                    "mode": "NULLABLE"
+                  },
+                  {
+                    "name": "value",
+                    "type": "BOOLEAN",
+                    "mode": "NULLABLE"
+                  }
+                ]
+              },
+              {
+                "name": "int_arrays",
+                "type": "RECORD",
+                "mode": "REPEATED",
+                "fields": [
+                  {
+                    "name": "name",
+                    "type": "STRING",
+                    "mode": "NULLABLE"
+                  },
+                  {
+                    "name": "value",
+                    "type": "INTEGER",
+                    "mode": "REPEATED"
+                  }
+                ]
+              }
+            ]
           },
           {
             "name": "id",
@@ -483,6 +892,51 @@
             "type": "RECORD",
             "mode": "NULLABLE",
             "fields": [
+              {
+                "name": "model_ids",
+                "type": "RECORD",
+                "mode": "REPEATED",
+                "fields": [
+                  {
+                    "name": "name",
+                    "type": "STRING"
+                  },
+                  {
+                    "name": "value",
+                    "type": "STRING"
+                  }
+                ]
+              },
+              {
+                "name": "cards",
+                "type": "RECORD",
+                "mode": "REPEATED",
+                "fields": [
+                  {
+                    "name": "name",
+                    "type": "STRING"
+                  },
+                  {
+                    "name": "value",
+                    "type": "RECORD",
+                    "fields": [
+                      {
+                        "name": "id",
+                        "type": "STRING",
+                        "mode": "REQUIRED"
+                      },
+                      {
+                        "name": "floor_added_to_deck",
+                        "type": "INTEGER"
+                      },
+                      {
+                        "name": "current_upgrade_level",
+                        "type": "INTEGER"
+                      }
+                    ]
+                  }
+                ]
+              },
               {
                 "name": "ints",
                 "type": "RECORD",
