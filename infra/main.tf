@@ -24,18 +24,13 @@ resource "google_project_service" "bigquery" {
   disable_on_destroy = false
 }
 
-resource "google_storage_bucket" "bucket" {
-  name          = var.bucket_name
-  location      = var.region
-  force_destroy = true
+resource "google_project_service" "secretmanager" {
+  project = var.project_id
+  service = "secretmanager.googleapis.com"
 
-  uniform_bucket_level_access = true
+  disable_on_destroy = false
 }
-resource "google_storage_bucket_iam_member" "bucket_reader" {
-  bucket = google_storage_bucket.bucket.name
-  role   = "roles/storage.objectUser"
-  member = "serviceAccount:${google_service_account.api_sa.email}"
-}
+
 
 resource "google_bigquery_dataset_iam_member" "member" {
   dataset_id = google_bigquery_dataset.dataset.dataset_id
@@ -43,33 +38,38 @@ resource "google_bigquery_dataset_iam_member" "member" {
   member     = "serviceAccount:${google_service_account.api_sa.email}"
 }
 
-resource "google_project_iam_member" "pipeline_binding" {
-  project = var.project_id
-  role    = "roles/bigquery.user"
-  member  = "serviceAccount:${google_service_account.api_sa.email}"
-}
-
 resource "google_bigquery_dataset" "dataset" {
   dataset_id    = var.dataset_id
-  friendly_name = "STS2 Dataset"
+  friendly_name = "slaythespire2"
   description   = "Dataset for STS2 data"
   location      = var.region
 
   depends_on = [google_project_service.bigquery]
 }
 
+
 resource "google_bigquery_table" "table" {
   dataset_id = google_bigquery_dataset.dataset.dataset_id
   table_id   = "runs"
-
-  schema = file("${path.module}/../data/table_schema.json")
-
-  deletion_protection = false # Set to true for production
-}
-
-resource "google_bigquery_table" "table-raw" {
-  dataset_id = google_bigquery_dataset.dataset.dataset_id
-  table_id   = "runs-raw"
+  schema     = <<EOF
+  [
+      {
+          "name": "steamid",
+          "type": "STRING",
+          "mode": "REQUIRED"
+      },
+      {
+          "name": "run",
+          "type": "TIMESTAMP",
+          "mode": "REQUIRED"
+      },
+      {
+          "name": "data",
+          "type": "JSON",
+          "mode": "REQUIRED"
+      }
+  ]
+EOF
 
   deletion_protection = false # Set to true for production
 }
@@ -77,6 +77,32 @@ resource "google_bigquery_table" "table-raw" {
 resource "google_service_account" "api_sa" {
   account_id   = "api-service-account"
   display_name = "API Service Account"
+}
+
+resource "random_password" "jwtsecretkey" {
+  length = 32
+}
+
+# Create the secret metadata
+resource "google_secret_manager_secret" "jwtsecretkey" {
+  secret_id = "jwtsecretkey"
+  replication {
+    auto {}
+  }
+}
+
+# Store the generated password as a secret version
+resource "google_secret_manager_secret_version" "jwtsecretkey_version" {
+  secret      = google_secret_manager_secret.jwtsecretkey.id
+  secret_data = random_password.jwtsecretkey.result
+}
+
+resource "google_secret_manager_secret_iam_member" "default" {
+  secret_id = google_secret_manager_secret.jwtsecretkey.id
+  role      = "roles/secretmanager.secretAccessor"
+  # Grant the new deployed service account access to this secret.
+  member     = "serviceAccount:${google_service_account.api_sa.email}"
+  depends_on = [google_secret_manager_secret.jwtsecretkey]
 }
 
 resource "google_cloud_run_v2_service" "api" {
@@ -92,10 +118,23 @@ resource "google_cloud_run_v2_service" "api" {
   template {
     service_account = google_service_account.api_sa.email
     containers {
-      image = "us-central1-docker.pkg.dev/sts2-490800/sts2/api@sha256:81a52d785343fa470c3d71400347625b646c920e16eeb018916da2cbb5428250"
+      image = "us-central1-docker.pkg.dev/sts2-490800/sts2/api@sha256:a26822b6d079c4596240ce300a677e993396a2b9eeb1b7cae10c425704f4fcdf"
       env {
-        name  = "BUCKET_NAME"
-        value = google_storage_bucket.bucket.name
+        name  = "BQ_DATASET"
+        value = google_bigquery_dataset.dataset.dataset_id
+      }
+      env {
+        name  = "BQ_TABLE"
+        value = google_bigquery_table.table.table_id
+      }
+      env {
+        name = "SECRET_KEY"
+        value_source {
+          secret_key_ref {
+            secret  = google_secret_manager_secret.jwtsecretkey.id
+            version = "latest"
+          }
+        }
       }
       resources {
         limits = {

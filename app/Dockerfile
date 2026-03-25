@@ -6,7 +6,7 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . .
-RUN CGO_ENABLED=0 go build -ldflags="-s -w" -o /server ./main.go
+RUN CGO_ENABLED=0 go build -ldflags="-s -w" -o /server ./cmd/api
 
 # Distroless image runs as nonroot (UID 65532) by default
 FROM gcr.io/distroless/static-debian12:nonroot

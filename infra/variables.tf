@@ -21,9 +21,3 @@ variable "dataset_id" {
   type        = string
   default     = "slaythespire2"
 }
-
-variable "bucket_name" {
-  description = "The name of the GCS bucket"
-  type        = string
-  default     = "sts2-data"
-}

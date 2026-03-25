@@ -8,7 +8,7 @@ terraform = "latest"
 
 [tasks.build]
 description = "Build the webapp"
-run = "podman build ./app/ -t us-central1-docker.pkg.dev/sts2-490800/sts2/api"
+run = "podman build app/ -t us-central1-docker.pkg.dev/sts2-490800/sts2/api"
 
 [tasks.push]
 run = "podman push us-central1-docker.pkg.dev/sts2-490800/sts2/api"
